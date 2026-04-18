@@ -55,9 +55,10 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 ```bash
 git clone <repo-url> ~/repos/agent_config
 
-# Link agents and skills into ~/.claude
+# Link agents, skills, and global CLAUDE.md into ~/.claude
 ln -sf ~/repos/agent_config/agents ~/.claude/agents
 ln -sf ~/repos/agent_config/skills ~/.claude/skills
+ln -sf ~/repos/agent_config/CLAUDE.md ~/.claude/CLAUDE.md
 ```
 
 Or copy instead of symlink if you prefer isolated snapshots.
