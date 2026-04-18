@@ -21,7 +21,7 @@ echo "gh auth: $(gh auth status 2>&1 | head -1)"
 
 ## Purpose
 
-Read task JSON files from `~/tasks/<repo_name>/` and create one GitHub issue per file using the `gh` CLI. Issues are created on the target GitHub repository with a title, body built from the task description, and a `priority:<level>` label.
+Read task JSON files from `~/tasks/<repo_name>/` and create one GitHub issue per file using the `gh` CLI. Issues are created on the target GitHub repository with a title and body built from the task description.
 
 ## Argument resolution
 
@@ -40,8 +40,7 @@ Read task JSON files from `~/tasks/<repo_name>/` and create one GitHub issue per
 6. **For each task file** (in `order` ascending):
    - Parse the JSON.
    - Build the issue body (see format below).
-   - Create the issue: `gh issue create --repo <owner/repo> --title "<title>" --body "<body>" --label "priority:<priority>"`
-   - If the label does not exist yet, `gh` will error — catch it and retry without the label, noting the missing label to the user.
+   - Create the issue: `gh issue create --repo <owner/repo> --title "<title>" --body "<body>"`
    - Print the created issue URL after each creation.
 7. **Summarise** — print a table of created issues (title → URL).
 
@@ -59,12 +58,6 @@ Read task JSON files from `~/tasks/<repo_name>/` and create one GitHub issue per
 **Order:** <order>
 **Source file:** `~/tasks/<repo_name>/<filename>`
 ```
-
-## Label handling
-
-Attempt to apply `priority:high`, `priority:medium`, or `priority:low` labels. These may not exist in the target repo. If `gh issue create` fails due to a missing label:
-- Retry the same command without `--label`.
-- Warn the user: *"Label `priority:<level>` not found in `<owner/repo>` — issue created without it. Run `gh label create priority:<level>` to add it."*
 
 ## Notes
 
@@ -91,6 +84,5 @@ Command run:
 gh issue create \
   --repo wedlu/my-app \
   --title "Add OAuth Login Page" \
-  --body "## Description\n\nCreate a login page..." \
-  --label "priority:high"
+  --body "## Description\n\nCreate a login page..."
 ```
