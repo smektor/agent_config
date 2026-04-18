@@ -42,6 +42,7 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 | Skill | Command | Purpose |
 |---|---|---|
 | `agent-md` | `/agent-md` | Generates or updates `AGENT.md` at a repo root — an AI agent identity file grounded in the actual codebase |
+| `session-summary` | `/session-summary` | Produces a structured two-part summary (short + extended) of a research or planning session, saved to `~/sessions/<project>/` as a handoff brief for the next session |
 | `task-export` | `/task-export` | Exports planning-session tasks as structured JSON files to `~/tasks/<repo>/` for a consuming agent to implement |
 
 ## Installation
