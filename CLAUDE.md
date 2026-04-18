@@ -43,6 +43,10 @@ Skills live in `~/.claude/skills/`. Read each `SKILL.md` so you know every avail
 - When working in a new repo → offer `/agent-md` to generate an agent identity file
 - When the user has task JSON files → mention `/issues-from-tasks` to create GitHub issues
 
+## Project context
+
+- If the current repo contains an `AGENT.md` file, read it at the start of the session and apply its rules, identity, and constraints throughout all work in that repo.
+
 ## Behavior
 
 - **Always tell the user before delegating** — state which agent or skill you are about to use and why, before invoking it.
