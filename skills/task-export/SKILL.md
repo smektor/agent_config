@@ -43,7 +43,8 @@ One file per task: `~/tasks/<repo_name>/<dd-mm-yyyy>-<feature-name>.json`
   "title": "string (short human-readable name)",
   "description": "string (self-contained agent prompt ending with the implement phrase)",
   "priority": "high | medium | low",
-  "order": "number (execution order within this feature, starting from 1)"
+  "order": "number (execution order within this feature, starting from 1)",
+  "depends_on": ["feature_name of another task", "..."] 
 }
 ```
 
@@ -71,6 +72,7 @@ Use the default for every task unless the user explicitly specifies an override 
    - `description`: self-contained prompt ending with the appropriate closing phrase from the table above
    - `priority`: high / medium / low
    - `order`: integer, execution order within the feature (1 = first)
+   - `depends_on`: array of `feature_name` strings this task must wait for; `[]` if none
 6. **Create directory** `~/tasks/<repo_name>/` if it doesn't exist.
 7. **Save files** to `~/tasks/<repo_name>/<dd-mm-yyyy>-<feature-name>.json`.
 8. **Confirm** to the user which files were created, with a summary table. If AGENT.md was absent (detected above), add a warning: *"No AGENT.md found in this repo — tasks will fall back to standard conventions. Consider running /agent-md first."*
@@ -86,7 +88,8 @@ File: `~/tasks/my-app/17-04-2026-oauth-login-page.json`
   "title": "Add OAuth Login Page",
   "description": "Create a login page at /login with a 'Sign in with Google' button. Use Next.js 14 App Router. The button should redirect to the OAuth provider. No session logic in this task. Follow AGENT.md if present in the repository root; otherwise apply standard conventions.",
   "priority": "high",
-  "order": 1
+  "order": 1,
+  "depends_on": []
 }
 ```
 
@@ -97,7 +100,8 @@ File: `~/tasks/my-app/17-04-2026-oauth-callback.json`
   "title": "Handle OAuth Callback",
   "description": "Add an API route at /api/auth/callback that receives the OAuth code, exchanges it for a token, and stores the session in an httpOnly cookie. Use the existing User model in /models/user.ts to persist the user record. Follow AGENT.md if present in the repository root; otherwise apply standard conventions.",
   "priority": "high",
-  "order": 2
+  "order": 2,
+  "depends_on": ["oauth-login-page"]
 }
 ```
 
