@@ -1,24 +1,39 @@
 ---
 name: task-export
-description: >
-  Use this skill at the end of a research or planning session when the output includes tasks, features, or goals to implement.
-  Triggers when the user says things like "save tasks", "export tasks", "create task files", "generate task JSONs",
-  "we have our plan, let's save it", or after a planning session produces actionable items.
-  Creates one JSON file per task in ~/tasks/<repo_name>/, formatted for consumption by a Claude agent that fetches a repo and implements the task.
+description: Exports tasks from the current planning session as structured JSON files to ~/tasks/<repo_name>/, one file per task, formatted for a Claude agent to implement.
+when_to_use: Triggers when the user says "save tasks", "export tasks", "create task files", "generate task JSONs", "we have our plan, let's save it", or after a planning session produces actionable items.
+argument-hint: "[repo-name]"
+disable-model-invocation: true
+allowed-tools: Bash Write
+effort: medium
 ---
 
 # Task Export Skill
+
+## Session context (auto-detected)
+
+```!
+echo "Today's date: $(date +%d-%m-%Y)"
+echo "Git repo name: $(git remote get-url origin 2>/dev/null | sed 's/.*\///' | sed 's/\.git//' || echo 'unknown — ask user')"
+echo "~/tasks/ dir: $(test -d ~/tasks && echo 'exists' || echo 'will be created')"
+```
 
 ## Purpose
 
 After a planning or research session, export the resulting tasks as structured JSON files to `~/tasks/<repo_name>/`. Each file is consumed by a Claude agent that implements it. Tasks must be as small as possible and end with a phrase that triggers the appropriate technology skill in the consuming agent.
 
+## Repo name resolution
+
+- If `$ARGUMENTS` is provided, use it as `repo_name`.
+- If git auto-detection succeeded above, confirm it with the user before proceeding.
+- If both are unavailable, ask the user.
+
 ## Output Format
 
 One file per task: `~/tasks/<repo_name>/<dd-mm-yyyy>-<feature-name>.json`
 
-- `repo_name`: the GitHub repository name (ask user if not mentioned in session)
-- `dd-mm-yyyy`: today's date
+- `repo_name`: the GitHub repository name
+- `dd-mm-yyyy`: today's date (auto-detected above)
 - `feature-name`: kebab-case task identifier
 
 ```json
@@ -34,17 +49,18 @@ One file per task: `~/tasks/<repo_name>/<dd-mm-yyyy>-<feature-name>.json`
 ## Steps
 
 1. **Extract tasks** from the current conversation. **Break tasks down as small as possible** — a single task should touch one concern (one component, one endpoint, one model change). If a task feels like it has two steps, split it.
-2. **Ask user** for `repo_name` if not mentioned, and confirm the exact technology name for the implement phrase (must match the target skill's trigger).
+2. **Resolve repo_name** using the logic above. Confirm technology name for the implement phrase (must match the target skill's trigger exactly).
 3. **Clarify** priority and order if ambiguous.
-4. **For each task**, construct the JSON object:
+4. **Confirm the task list** with the user before writing any files.
+5. **For each task**, construct the JSON object:
    - `feature_name`: kebab-case identifier
    - `title`: concise human-readable label
    - `description`: self-contained prompt ending with `Implement according to skill for <language/framework/technology>.`
    - `priority`: high / medium / low
    - `order`: integer, execution order within the feature (1 = first)
-5. **Create directory** `~/tasks/<repo_name>/` if it doesn't exist.
-6. **Save files** to `~/tasks/<repo_name>/<dd-mm-yyyy>-<feature-name>.json`.
-7. **Confirm** to the user which files were created, with a summary table.
+6. **Create directory** `~/tasks/<repo_name>/` if it doesn't exist.
+7. **Save files** to `~/tasks/<repo_name>/<dd-mm-yyyy>-<feature-name>.json`.
+8. **Confirm** to the user which files were created, with a summary table.
 
 ## Example
 
@@ -77,4 +93,4 @@ File: `~/tasks/my-app/17-04-2026-oauth-callback.json`
 - The `Implement according to skill for <X>` phrase at the end of every description is mandatory — it triggers the appropriate technology skill in the consuming agent.
 - Be consistent with the technology name — it must match the trigger phrase of the target skill exactly.
 - Write `description` as if the agent has no memory of this session — fully self-contained.
-- Do not invent tasks not discussed in the session. Ask the user to confirm the list before writing files.
+- Do not invent tasks not discussed in the session. Always confirm the list with the user before writing files.
