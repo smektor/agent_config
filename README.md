@@ -31,6 +31,8 @@ Each file defines a named sub-agent that Claude Code can spawn via the `Agent` t
 | `engineering-mobile-app-builder` | Native iOS/Android and cross-platform mobile development |
 | `engineering-rapid-prototyper` | Ultra-fast proof-of-concept and MVP creation |
 | `engineering-security-engineer` | Threat modeling, vulnerability assessment, and secure code review |
+| `engineering-project-tech-advisor` | Interactive advisor for new project technology discovery — structured sessions to evaluate options and produce honest recommendations |
+| `engineering-rails-developer` | Ruby on Rails full-stack specialist — Rails, Hotwire, Turbo, Stimulus.js, ViewComponent |
 | `engineering-senior-developer` | Laravel/Livewire/FluxUI, advanced CSS, Three.js integration |
 | `engineering-software-architect` | System design, DDD, architectural patterns, and technical decision-making |
 | `engineering-technical-writer` | Developer documentation, API references, READMEs, and tutorials |
@@ -42,8 +44,11 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 | Skill | Command | Purpose |
 |---|---|---|
 | `agent-md` | `/agent-md` | Generates or updates `AGENT.md` at a repo root — an AI agent identity file grounded in the actual codebase |
+| `issues-from-tasks` | `/issues-from-tasks` | Creates GitHub issues from task JSON files in `~/tasks/<repo>/`, one issue per file, using the `gh` CLI |
 | `session-summary` | `/session-summary` | Produces a structured two-part summary (short + extended) of a research or planning session, saved to `~/sessions/<project>/` as a handoff brief for the next session |
+| `task-distill` | `/task-distill` | Rethinks the session discussion and distills it into a concise, prioritized list of small actionable tasks |
 | `task-export` | `/task-export` | Exports planning-session tasks as structured JSON files to `~/tasks/<repo>/` for a consuming agent to implement |
+| `topic-summary` | `/topic-summary` | Produces a structured summary of a specific topic discussed during a session — options considered, pros/cons, open questions, and a recommended starting point |
 
 ## Installation
 
