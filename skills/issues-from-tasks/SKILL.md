@@ -36,7 +36,7 @@ Read task JSON files from `~/tasks/<repo_name>/` and create one GitHub issue per
 2. **Resolve `owner/repo`** — the GitHub repository to open issues on.
 3. **List task files** in `~/tasks/<repo_name>/` matching `*.json`, sorted by `order` field ascending.
 4. **Check `gh` auth** — if not authenticated, tell the user to run `gh auth login` and stop.
-5. **Confirm with the user** — show a table of tasks (filename → title → priority → order) before creating any issues.
+5. **Confirm with the user** — show a table of tasks (filename → title → priority → order → depends_on) before creating any issues. The `depends_on` column is for human review only — it will not appear in the issue body.
 6. **For each task file** (in `order` ascending):
    - Parse the JSON.
    - Build the issue body (see format below).
@@ -61,6 +61,7 @@ Read task JSON files from `~/tasks/<repo_name>/` and create one GitHub issue per
 
 ## Notes
 
+- `depends_on` is orchestration metadata — it is intentionally excluded from the issue body. The agent implementing the issue has no awareness of other issues; putting dependency references in the body would be noise it cannot act on. The task JSON files remain the source of truth for execution order and dependencies.
 - Do not create duplicate issues. Before creating, optionally check for an existing open issue with the same title: `gh issue list --repo <owner/repo> --search "<title>" --state open`. If one exists, skip and warn the user.
 - Do not delete or modify task JSON files after issue creation.
 - If `~/tasks/<repo_name>/` is empty or does not exist, tell the user to run `/task-export` first.
