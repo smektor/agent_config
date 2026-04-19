@@ -1,13 +1,17 @@
 # agent_config
 
-This repository is the source of truth for `~/.claude` — the global Claude Code configuration directory. Clone and symlink (or copy) its contents into `~/.claude` to replicate this setup on any machine.
+This repository is the **staging area and source of truth** for `~/.claude` — the global Claude Code configuration directory. Files are authored and versioned here, then **manually copied** into `~/.claude` by the user. Nothing in this repo is auto-synced or symlinked.
+
+The directory structure mirrors `~/.claude` exactly. Everything except `README.md` is destined to be moved there as-is.
 
 ## Directory structure
 
 ```
-~/.claude/
-├── agents/          # Sub-agent definitions loaded by Claude Code
-└── skills/          # Slash-command skills invokable via /skill-name
+agent_config/        # mirrors ~/.claude/ exactly
+├── agents/          # sub-agent definitions
+├── skills/          # slash-command skills
+├── rules/           # path-scoped authoring rules (applied by Claude Code when editing matched files)
+└── CLAUDE.md        # global behavioral instructions for Claude Code
 ```
 
 ## agents/
@@ -50,18 +54,24 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 | `task-export` | `/task-export` | Exports planning-session tasks as structured JSON files to `~/tasks/<repo>/` for a consuming agent to implement |
 | `topic-summary` | `/topic-summary` | Produces a structured summary of a specific topic discussed during a session — options considered, pros/cons, open questions, and a recommended starting point |
 
-## Installation
+## Workflow
+
+Files are edited here, committed, and then **manually copied** into `~/.claude` by the user. Claude Code must never move or sync files to `~/.claude` automatically.
 
 ```bash
-git clone <repo-url> ~/repos/agent_config
-
-# Link agents, skills, and global CLAUDE.md into ~/.claude
-ln -sf ~/repos/agent_config/agents ~/.claude/agents
-ln -sf ~/repos/agent_config/skills ~/.claude/skills
-ln -sf ~/repos/agent_config/CLAUDE.md ~/.claude/CLAUDE.md
+# After editing, copy changed files into ~/.claude manually, e.g.:
+cp agents/engineering-foo.md ~/.claude/agents/
+cp rules/agents.md ~/.claude/rules/
 ```
 
-Or copy instead of symlink if you prefer isolated snapshots.
+## rules/
+
+Path-scoped authoring rules that Claude Code loads automatically when editing matched files. Each rule file has a `paths` frontmatter field that targets specific file patterns.
+
+| Rule | Applies to | Purpose |
+|---|---|---|
+| `rules/agents.md` | `agents/*.md` | Required frontmatter schema and naming conventions for agent files |
+| `rules/skills.md` | `skills/*/SKILL.md` | Required frontmatter schema and conventions for skill files |
 
 ## Adding a new agent
 
