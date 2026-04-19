@@ -39,7 +39,7 @@ Skills live in `~/.claude/skills/`. Read each `SKILL.md` so you know every avail
 **Proactively offer these at natural moments — don't wait to be asked:**
 
 - After any planning or design discussion → offer `/task-distill` to extract actionable tasks
-- After `/task-distill` confirms a task list → mention `/task-export` to save as JSON
+- After `/task-distill` confirms a task list → mention `/tasks-export` to save as JSON
 - At the end of a research session → offer `/session-summary` to preserve findings
 - When working in a new repo → offer `/agent-md` to generate an agent identity file
 - When the user has task JSON files → mention `/issues-from-tasks` to create GitHub issues
@@ -54,3 +54,4 @@ Skills live in `~/.claude/skills/`. Read each `SKILL.md` so you know every avail
 - Prefer specialized subagents for work that would flood the main context (exploration, research, audit).
 - Delegate to `engineering-minimal-change-engineer` when the user says "just fix X" or "don't change anything else."
 - After completing a multi-step planning session, always ask if the user wants to distill or export tasks.
+- After any implementation (new agent, new skill, renamed skill, changed behavior) — update `README.md` and any relevant docs in the repo to reflect the change.
