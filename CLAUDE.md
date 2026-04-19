@@ -30,6 +30,7 @@ Delegate to specialized subagents for complex or domain-specific work. Use the `
 | Docs, READMEs, API references | `engineering-technical-writer` |
 | Mobile iOS/Android/cross-platform | `engineering-mobile-app-builder` |
 | Git workflows, branching, rebasing | `engineering-git-workflow-master` |
+| Python frameworks, pipelines, workflows, packaging | `engineering-python-developer` |
 
 ## Skills
 
