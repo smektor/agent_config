@@ -1,7 +1,7 @@
 ---
 name: issues-from-tasks
-description: Creates GitHub issues from task JSON files in ~/tasks/<repo_name>/, one issue per file, using the gh CLI.
-when_to_use: Triggers when the user says "create issues", "push tasks to GitHub", "open issues from tasks", "create GitHub issues from tasks", or similar. Requires task JSON files to already exist (run /task-export first).
+description: Creates GitHub issues from a tasks JSON file in ~/tasks/<repo_name>/, one issue per task entry, using the gh CLI.
+when_to_use: Triggers when the user says "create issues", "push tasks to GitHub", "open issues from tasks", "create GitHub issues from tasks", or similar. Requires a tasks JSON file to already exist (run /tasks-export first).
 argument-hint: "[repo-name] [github-owner/repo]"
 disable-model-invocation: true
 allowed-tools: Bash
@@ -21,7 +21,7 @@ echo "gh auth: $(gh auth status 2>&1 | head -1)"
 
 ## Purpose
 
-Read task JSON files from `~/tasks/<repo_name>/` and create one GitHub issue per file using the `gh` CLI. Issues are created on the target GitHub repository with a title and body built from the task description.
+Read a tasks JSON file from `~/tasks/<repo_name>/` and create one GitHub issue per task entry using the `gh` CLI. Issues are created on the target GitHub repository with a title and body built from the task description.
 
 ## Argument resolution
 
@@ -34,15 +34,15 @@ Read task JSON files from `~/tasks/<repo_name>/` and create one GitHub issue per
 
 1. **Resolve `repo_name`** — the local task folder name under `~/tasks/`.
 2. **Resolve `owner/repo`** — the GitHub repository to open issues on.
-3. **List task files** in `~/tasks/<repo_name>/` matching `*.json`, sorted by `order` field ascending.
-4. **Check `gh` auth** — if not authenticated, tell the user to run `gh auth login` and stop.
-5. **Confirm with the user** — show a table of tasks (filename → title → priority → order → depends_on) before creating any issues. The `depends_on` column is for human review only — it will not appear in the issue body.
-6. **For each task file** (in `order` ascending):
-   - Parse the JSON.
+3. **Find the tasks file** in `~/tasks/<repo_name>/` matching `*-tasks.json`. If multiple exist, pick the most recent by filename date and confirm with user.
+4. **Parse the `tasks` array** from the JSON file, sorted by `order` field ascending.
+5. **Check `gh` auth** — if not authenticated, tell the user to run `gh auth login` and stop.
+6. **Confirm with the user** — show a table of tasks (title → priority → order → depends_on) before creating any issues. The `depends_on` column is for human review only — it will not appear in the issue body.
+7. **For each task entry** (in `order` ascending):
    - Build the issue body (see format below).
    - Create the issue: `gh issue create --repo <owner/repo> --title "<title>" --body "<body>"`
    - Print the created issue URL after each creation.
-7. **Summarise** — print a table of created issues (title → URL).
+8. **Summarise** — print a table of created issues (title → URL).
 
 ## Issue body format
 
@@ -61,22 +61,29 @@ Read task JSON files from `~/tasks/<repo_name>/` and create one GitHub issue per
 
 ## Notes
 
-- `depends_on` is orchestration metadata — it is intentionally excluded from the issue body. The agent implementing the issue has no awareness of other issues; putting dependency references in the body would be noise it cannot act on. The task JSON files remain the source of truth for execution order and dependencies.
+- `depends_on` is orchestration metadata — it is intentionally excluded from the issue body. The agent implementing the issue has no awareness of other issues; putting dependency references in the body would be noise it cannot act on. The task JSON file remains the source of truth for execution order and dependencies.
 - Do not create duplicate issues. Before creating, optionally check for an existing open issue with the same title: `gh issue list --repo <owner/repo> --search "<title>" --state open`. If one exists, skip and warn the user.
-- Do not delete or modify task JSON files after issue creation.
-- If `~/tasks/<repo_name>/` is empty or does not exist, tell the user to run `/task-export` first.
+- Do not delete or modify the task JSON file after issue creation.
+- If `~/tasks/<repo_name>/` is empty or does not exist, tell the user to run `/tasks-export` first.
 - Issues are created sequentially (not in parallel) to preserve order and avoid rate limits.
 
 ## Example
 
-Task file: `~/tasks/my-app/18-04-2026-oauth-login-page.json`
+Tasks file: `~/tasks/my-app/19-04-2026-tasks.json`
 ```json
 {
-  "feature_name": "oauth-login-page",
-  "title": "Add OAuth Login Page",
-  "description": "Create a login page at /login with a 'Sign in with Google' button...",
-  "priority": "high",
-  "order": 1
+  "repo": "my-app",
+  "exported_at": "19-04-2026",
+  "tasks": [
+    {
+      "feature_name": "oauth-login-page",
+      "title": "Add OAuth Login Page",
+      "description": "Create a login page at /login with a 'Sign in with Google' button...",
+      "priority": "high",
+      "order": 1,
+      "depends_on": []
+    }
+  ]
 }
 ```
 
