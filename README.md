@@ -1,8 +1,8 @@
 # agent_config
 
-This repository is the **staging area and source of truth** for `~/.claude` — the global Claude Code configuration directory. Files are authored and versioned here, then **manually copied** into `~/.claude` by the user. Nothing in this repo is auto-synced or symlinked.
+This repository is the **staging area and source of truth** for `~/.claude` — the global Claude Code configuration directory. Files are authored and versioned here, then synced into `~/.claude` by running `sync.sh`.
 
-The directory structure mirrors `~/.claude` exactly. Everything except `README.md` is destined to be moved there as-is.
+The directory structure mirrors `~/.claude` exactly. Everything except `README.md` and `sync.sh` is destined to land there as-is.
 
 ## Directory structure
 
@@ -56,13 +56,13 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 
 ## Workflow
 
-Files are edited here, committed, and then **manually copied** into `~/.claude` by the user. Claude Code must never move or sync files to `~/.claude` automatically.
+Edit files here, commit, then run `sync.sh` to push everything into `~/.claude`:
 
 ```bash
-# After editing, copy changed files into ~/.claude manually, e.g.:
-cp agents/engineering-foo.md ~/.claude/agents/
-cp rules/agents.md ~/.claude/rules/
+./sync.sh
 ```
+
+The script copies `CLAUDE.md`, `agents/`, `skills/`, and `rules/` to `~/.claude`, creating any missing subdirectories. It only adds/updates — it never deletes files from `~/.claude`.
 
 ## rules/
 
