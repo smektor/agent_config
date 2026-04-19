@@ -51,7 +51,7 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 | `issues-from-tasks` | `/issues-from-tasks` | Creates GitHub issues from task JSON files in `~/tasks/<repo>/`, one issue per file, using the `gh` CLI |
 | `session-summary` | `/session-summary` | Produces a structured two-part summary (short + extended) of a research or planning session, saved to `~/sessions/<project>/` as a handoff brief for the next session |
 | `task-distill` | `/task-distill` | Rethinks the session discussion and distills it into a concise, prioritized list of small actionable tasks |
-| `task-export` | `/task-export` | Exports planning-session tasks as structured JSON files to `~/tasks/<repo>/` for a consuming agent to implement |
+| `tasks-export` | `/tasks-export` | Exports all planning-session tasks as a single JSON file to `~/tasks/<repo>/` for a consuming agent to implement |
 | `topic-summary` | `/topic-summary` | Produces a structured summary of a specific topic discussed during a session — options considered, pros/cons, open questions, and a recommended starting point |
 
 ## Workflow
