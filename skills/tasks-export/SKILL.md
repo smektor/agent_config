@@ -38,22 +38,16 @@ Read [template.json](template.json) for the JSON schema and a worked example.
 
 ## Closing phrase (added to every task description)
 
-Each task `description` must end with one of these phrases. The consuming agent checks at **run time** — do not try to resolve this at export time.
+Each task `description` must end with this phrase:
 
-| Situation | Closing phrase |
-|---|---|
-| Default (most tasks) | `Follow AGENT.md if present in the repository root; otherwise apply standard conventions.` |
-| Specific subagent override | `Use the @<agent-name> agent defined in .claude/agents/.` |
-| No agent guidelines | `Implement without following any predefined agent guidelines.` |
-
-Use the default for every task unless the user explicitly specifies an override during confirmation.
+> If a `CLAUDE.md` file exists in the repository root, read it to familiarize yourself with the project conventions and let it guide your implementation. Follow its rules unless this task description explicitly says otherwise.
 
 ## Steps
 
 1. **Extract tasks** from the current conversation. Break tasks down as small as possible — one concern per task (one component, one endpoint, one model change). If a task has two steps, split it.
 2. **Resolve repo_name** using the logic above.
 3. **Clarify** priority and order if ambiguous.
-4. **Confirm the task list** with the user before writing any files. Note the closing phrase for each task (default or override) — this is the moment for per-task overrides.
+4. **Confirm the task list** with the user before writing any files.
 5. **Construct and save** the JSON using the Output Format above. Create `~/tasks/<repo_name>/` if needed. Save to `~/tasks/<repo_name>/<dd-mm-yyyy>-tasks.json`.
 6. **Report** to the user: the saved file path, a summary table of tasks, and — if AGENT.md was absent — the warning: *"No AGENT.md found in this repo — tasks will fall back to standard conventions. Consider running /agent-md first."*
 
