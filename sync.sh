@@ -27,6 +27,7 @@ sync_dir() {
 
 echo "Syncing agent_config → ~/.claude"
 
+sync_file "$REPO_DIR/CLAUDE.md"              "$CLAUDE_DIR/CLAUDE.md"
 sync_dir  "$REPO_DIR/agents"                 "$CLAUDE_DIR/agents"
 sync_dir  "$REPO_DIR/skills"                 "$CLAUDE_DIR/skills"
 
