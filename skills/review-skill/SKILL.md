@@ -32,7 +32,7 @@ If no path given, look for SKILL.md files in `.claude/skills/` and `~/.claude/sk
 ### Body
 - Keep under 500 lines
 - Remove anything Claude already knows (standard conventions, generic advice)
-- Move large reference material to supporting files, referenced with a relative link
+- Move large reference material to supporting files, referenced with a relative link — prime candidates: JSON schemas, output templates, format examples, lookup tables, and worked examples
 - No redundant steps — if a template or agent handles it, don't repeat it in the body
 - Checklists have poor adherence — convert to rules or remove
 
@@ -53,6 +53,6 @@ If no path given, look for SKILL.md files in `.claude/skills/` and `~/.claude/sk
 1. Rewritten version of the SKILL.md
 2. List of what was changed and why, referencing the rules above
 3. Flag anything requiring human judgement:
-   - Content that should move to a supporting file
+   - Content that should move to a supporting file — actively check for: JSON schemas, output format blocks, worked examples, and lookup tables; if found, propose the supporting file name and note that `Read` must be added to `allowed-tools`
    - Rules that would be better enforced as hooks
    - Whether the skill should be split into two focused skills
