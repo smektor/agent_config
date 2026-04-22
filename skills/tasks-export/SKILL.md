@@ -34,7 +34,7 @@ After a planning or research session, export all resulting tasks as a single JSO
 
 One file for all tasks: `~/tasks/<repo_name>/<dd-mm-yyyy>-tasks.json`
 
-Read [template.json](template.json) for the JSON schema and a worked example.
+Read [skills/tasks-export/template.json](skills/tasks-export/template.json) for the JSON schema and a worked example.
 
 ## Closing phrase (added to every task description)
 
@@ -45,9 +45,14 @@ Each task `description` must end with this phrase:
 ## Steps
 
 1. **Extract tasks** from the current conversation. Break tasks down as small as possible — one concern per task (one component, one endpoint, one model change). If a task has two steps, split it.
-2. **Resolve repo_name** using the logic above.
-3. **Clarify** priority and order if ambiguous.
-4. **Confirm the task list** with the user before writing any files.
-5. **Construct and save** the JSON using the Output Format above. Create `~/tasks/<repo_name>/` if needed. Save to `~/tasks/<repo_name>/<dd-mm-yyyy>-tasks.json`.
-6. **Report** to the user: the saved file path, a summary table of tasks, and — if AGENT.md was absent — the warning: *"No AGENT.md found in this repo — tasks will fall back to standard conventions. Consider running /agent-md first."*
+2. **Verify explicitness** — For every task description, ensure it is explicit about:
+   - **File paths**: use project-relative paths (e.g., `app/models/user.rb`), not vague references like "the user model" or "the config file".
+   - **Filenames**: name the exact file to create or edit (e.g., `app/controllers/sessions_controller.rb`), not "a controller" or "a new file".
+   - **Directories**: when creating new files, state the target directory explicitly (e.g., "create `app/services/auth_service.rb`").
+   - If a description is vague, rewrite it to be concrete before proceeding.
+3. **Resolve repo_name** using the logic above.
+4. **Clarify** priority and order if ambiguous.
+5. **Confirm the task list** with the user before writing any files.
+6. **Construct and save** the JSON using the Output Format above. Create `~/tasks/<repo_name>/` if needed. Save to `~/tasks/<repo_name>/<dd-mm-yyyy>-tasks.json`.
+7. **Report** to the user: the saved file path, a summary table of tasks, and — if AGENT.md was absent — the warning: *"No AGENT.md found in this repo — tasks will fall back to standard conventions. Consider running /agent-md first."*
 
