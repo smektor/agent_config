@@ -29,6 +29,10 @@ If no path given, look for agent files in `.claude/agents/` and `~/.claude/agent
 - Remove non-standard fields (`emoji`, `vibe`, and any other fields not in the supported list)
 - Supported fields: `name`, `description`, `tools`, `disallowedTools`, `model`, `permissionMode`, `maxTurns`, `skills`, `mcpServers`, `hooks`, `memory`, `background`, `isolation`, `color`
 
+### Focus
+- The agent should do one thing well — if it covers multiple unrelated domains, flag it for splitting
+- If a rule in the agent must happen every time with zero exceptions, flag it for conversion to a hook instead — hooks are deterministic, agent body instructions are advisory
+
 ### Body — what to cut
 Every line in the body is paid on every turn. Remove:
 - Personality adjectives ("creative, detail-oriented") — don't change any decision
@@ -67,4 +71,9 @@ Every line in the body is paid on every turn. Remove:
 
 1. Rewritten agent file
 2. List of what was changed and why, referencing the rules above
-3. Flag anything requiring human judgement — e.g. code examples that need real file paths, `memory` scope decisions, or whether a section should move to a supporting file
+3. Flag anything requiring human judgement:
+   - Code examples that need real file paths
+   - `memory` scope decisions
+   - Whether a section should move to a supporting file
+   - Rules that would be better enforced as hooks
+   - Whether the agent should be split into two focused agents
