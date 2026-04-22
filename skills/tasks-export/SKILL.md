@@ -49,7 +49,8 @@ Each task `description` must end with this phrase:
    - **File paths**: use project-relative paths (e.g., `app/models/user.rb`), not vague references like "the user model" or "the config file".
    - **Filenames**: name the exact file to create or edit (e.g., `app/controllers/sessions_controller.rb`), not "a controller" or "a new file".
    - **Directories**: when creating new files, state the target directory explicitly (e.g., "create `app/services/auth_service.rb`").
-   - If a description is vague, rewrite it to be concrete before proceeding.
+   - **Expected output**: every description must state what a successful result looks like — either a concrete artifact (e.g., "a new `AuthService` class with a `#call` method") or a verifiable behaviour (e.g., "visiting `/login` renders the form and returns HTTP 200").
+   - If a description is vague on any of the above, rewrite it to be concrete before proceeding.
 3. **Resolve repo_name** using the logic above.
 4. **Clarify** priority and order if ambiguous.
 5. **Confirm the task list** with the user before writing any files.
