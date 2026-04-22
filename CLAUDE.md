@@ -3,6 +3,12 @@
 - Prefer explicit over implicit: name variables clearly, avoid single-letter names outside loops
 - Use early returns to reduce nesting
 
+# Performance / context management
+- Delegate to `explorer` for codebase-wide searches, reading 10+ files, or verbose output (full test suite runs, large logs). Not for reading a few known files or running a single test.
+- Run only the relevant test file, not the full suite, unless asked
+- When compacting, always preserve: list of modified files, failing tests, commands to reproduce issues
+- After two failed correction attempts, stop and ask for clarification instead of retrying
+
 # Python
 - Use 4-space indentation (PEP 8)
 - Type hints required on all function signatures
