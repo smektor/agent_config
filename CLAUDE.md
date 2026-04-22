@@ -1,57 +1,40 @@
-# Global Claude Code Configuration
+# Code style
+- Use 2-space indentation for all languages unless a project config overrides it
+- Prefer explicit over implicit: name variables clearly, avoid single-letter names outside loops
+- Use early returns to reduce nesting
 
-Personal preferences and behavioral guidance applied to every project.
+# Python
+- Use 4-space indentation (PEP 8)
+- Type hints required on all function signatures
+- Use f-strings over .format() or %
+- Prefer pathlib over os.path
+- Use ruff for linting, mypy for type checking
+- Run: ruff check . && mypy . after changes
 
-## Agents
+# Ruby / Ruby on Rails
+- Follow standard Ruby style (2-space indent)
+- Prefer symbols over strings for hash keys
+- Use keyword arguments for methods with 3+ parameters
+- Rails: follow RESTful conventions for controllers; one action per controller method
+- Rails: use scopes over class methods for ActiveRecord queries
+- Rails: avoid logic in views; move to helpers or presenters
+- Run: bundle exec rubocop after changes
+- Rails: run bundle exec rails test or bundle exec rspec, not the full suite unless asked
 
-Delegate to specialized subagents for complex or domain-specific work. Use the `Agent` tool with the subagent name from `~/.claude/agents/`.
+# Git
+- Commit messages: imperative mood, max 72 chars, e.g. "Add rate limiter to auth endpoint"
+- Never commit directly to main or master
+- Branch naming: <type>/<short-description>, e.g. feat/oauth-login, fix/token-refresh
 
-**When to delegate proactively — don't wait to be asked:**
+# Workflow
+- Run the linter and type checker after finishing a series of changes
+- Run only the relevant test file, not the full suite, unless I ask otherwise
+- IMPORTANT: when adding a feature, check if a pattern already exists in the codebase before inventing a new one
 
-| Task type | Subagent to use |
-|---|---|
-| Code review or audit | `engineering-code-reviewer` |
-| System design or architecture decisions | `engineering-software-architect` |
-| Backend APIs, databases, microservices | `engineering-backend-architect` |
-| Frontend, React/Vue/Angular, UI | `engineering-frontend-developer` |
-| Data pipelines, ETL/ELT, Spark, dbt | `engineering-data-engineer` |
-| Database schema, query optimization | `engineering-database-optimizer` |
-| CI/CD, infrastructure, cloud ops | `engineering-devops-automator` |
-| Security review, threat modeling | `engineering-security-engineer` |
-| Bug fix where scope must stay narrow | `engineering-minimal-change-engineer` |
-| Exploring an unfamiliar codebase | `engineering-codebase-onboarding-engineer` |
-| New project technology evaluation | `engineering-project-tech-advisor` |
-| Proof of concept or MVP | `engineering-rapid-prototyper` |
-| Rails / Hotwire / Turbo / Stimulus | `engineering-rails-developer` |
-| Laravel / Livewire / FluxUI / Three.js | `engineering-senior-developer` |
-| ML models, LLMs, AI features | `engineering-ai-engineer` |
-| Self-healing data pipelines, anomaly fix | `engineering-ai-data-remediation-engineer` |
-| API performance + cost guardrails | `engineering-autonomous-optimization-architect` |
-| Docs, READMEs, API references | `engineering-technical-writer` |
-| Mobile iOS/Android/cross-platform | `engineering-mobile-app-builder` |
-| Git workflows, branching, rebasing | `engineering-git-workflow-master` |
-| Python frameworks, pipelines, workflows, packaging | `engineering-python-developer` |
+# Shell
+- Preferred shell: zsh
+- Package manager: prefer pnpm over npm when available
+- Use gh CLI for GitHub operations (PRs, issues, reviews)
 
-## Skills
-
-Skills live in `~/.claude/skills/`. Read each `SKILL.md` so you know every available skill and its trigger phrases. Invoke a skill whenever the user's request matches its `description` or `when_to_use`.
-
-**Proactively offer these at natural moments — don't wait to be asked:**
-
-- After any planning or design discussion → offer `/task-distill` to extract actionable tasks
-- After `/task-distill` confirms a task list → mention `/tasks-export` to save as JSON
-- At the end of a research session → offer `/session-summary` to preserve findings
-- When working in a new repo → offer `/agent-md` to generate an agent identity file
-- When the user has task JSON files → mention `/issues-from-tasks` to create GitHub issues
-
-## Project context
-
-- If the current repo contains an `AGENT.md` file, read it at the start of the session and apply its rules, identity, and constraints throughout all work in that repo.
-
-## Behavior
-
-- **Always tell the user before delegating** — state which agent or skill you are about to use and why, before invoking it.
-- Prefer specialized subagents for work that would flood the main context (exploration, research, audit).
-- Delegate to `engineering-minimal-change-engineer` when the user says "just fix X" or "don't change anything else."
-- After completing a multi-step planning session, always ask if the user wants to distill or export tasks.
-- After any implementation (new agent, new skill, renamed skill, changed behavior) — update `README.md` and any relevant docs in the repo to reflect the change.
+# Context management
+- When compacting, always preserve: list of modified files, failing tests, and any commands needed to reproduce issues
