@@ -58,7 +58,10 @@ For each task, output:
 ### Task 1 — <Title>
 **Priority:** high | medium | low
 **Depends on:** none | Task N
-**Description:** Self-contained, one-paragraph description of what needs to be done and why. Written as if the implementer has no memory of this session.
+**Description:** Self-contained, one-paragraph description of what needs to be done and why. Written as if the implementer has no memory of this session. Must include:
+- Exact project-relative file paths for every file to create or edit (e.g., `app/models/user.rb`).
+- Explicit target directory when creating new files.
+- A concrete expected output — either a named artifact (e.g., "a new `AuthService` class with a `#call` method") or a verifiable behaviour (e.g., "visiting `/login` returns HTTP 200 and renders the login form").
 ```
 
 ## Steps
@@ -68,7 +71,10 @@ For each task, output:
 3. **Prune and split**: remove duplicates, merge trivially related items, split anything with "and" in the title.
 4. **Assign priority**: high = blocks other work or core to the goal; medium = important but not blocking; low = nice-to-have or deferred.
 5. **Assign order**: execution order within this session's scope, starting from 1. Infrastructure before features.
-6. **Write descriptions**: each description must be fully self-contained — no references to "as discussed" or "as mentioned above". A reader with zero session memory must understand the task.
+6. **Write descriptions**: each description must be fully self-contained — no references to "as discussed" or "as mentioned above". A reader with zero session memory must understand the task. Every description must also:
+   - Name exact project-relative paths for all files to create or edit (e.g., `app/controllers/sessions_controller.rb`), not vague references like "the controller" or "a new file".
+   - State the target directory explicitly when creating new files.
+   - End with a concrete expected output — a named artifact (class, method, file) or a verifiable behaviour (test scenario, HTTP response, rendered UI). If you cannot state what done looks like, the task is not well-defined enough — refine it first.
 7. **Print the task table** followed by the per-task detail blocks.
 8. **Ask the user** if the list looks right, and whether any tasks should be split, merged, reprioritized, or dropped.
 
