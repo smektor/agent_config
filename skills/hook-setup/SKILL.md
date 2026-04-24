@@ -1,6 +1,9 @@
 ---
 name: hook-setup
 description: Sets up Claude Code hooks in settings.json and documents them in CLAUDE.md so future agents don't redundantly re-run operations already handled automatically. Use this skill whenever the user wants to run tests, linting, formatting, or builds automatically; says "run X automatically", "don't run X manually", "add a Stop hook", "hook up lint", "automate X on every task", or "set up a PreToolUse/PostToolUse/Stop hook". Always use this skill for any "automate a command via hooks" request, even if the user doesn't say the word "hook" explicitly.
+disable-model-invocation: true
+allowed-tools: Bash Read Write Edit
+effort: low
 ---
 
 # Hook Setup
@@ -103,33 +106,7 @@ PreToolUse hook (block/warn before a tool runs):
 
 ### Merging hooks
 
-Merge new hooks into the existing JSON — preserve everything else. Use Python to read, update, and write:
-
-```python
-import json, os
-
-path = ".claude/settings.json"
-os.makedirs(".claude", exist_ok=True)
-
-try:
-    with open(path) as f:
-        cfg = json.load(f)
-except FileNotFoundError:
-    cfg = {}
-
-cfg.setdefault("hooks", {})
-cfg["hooks"].setdefault("Stop", [])
-
-# Add the new hook entry (check for duplicates first)
-new_entry = {"matcher": "*", "hooks": [{"type": "command", "command": "npm test", "timeout": 60}]}
-cfg["hooks"]["Stop"].append(new_entry)
-
-with open(path, "w") as f:
-    json.dump(cfg, f, indent=2)
-print("Written to", path)
-```
-
-Adapt the event name, command, matcher, and timeout to what the user actually wants.
+Use Python to read the existing JSON, merge the new hook entry into the correct key, and write it back without touching other keys.
 
 ---
 
@@ -165,31 +142,4 @@ After writing both files, tell the user:
 2. What was added to CLAUDE.md.
 3. **"Restart Claude Code for the hook to take effect."** (Hooks load at session start — changes don't apply to the current session.)
 
----
-
-## Quick example
-
-User says: *"Run tests and lint automatically after every task."*
-
-Stack detected: Node.js with `npm test` and `npm run lint` scripts.
-
-Hook written to `.claude/settings.json`:
-```json
-{
-  "hooks": {
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [{ "type": "command", "command": "npm test && npm run lint", "timeout": 60 }]
-      }
-    ]
-  }
-}
-```
-
-CLAUDE.md entry added:
-```
-## Automated Hooks
-
-Tests and linting run automatically via a Stop hook. Do not run `npm test` or `npm run lint` manually unless explicitly asked.
-```
+See `./example.md` for a complete worked example.
