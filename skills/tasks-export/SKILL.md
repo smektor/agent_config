@@ -17,7 +17,6 @@ ORIGIN=$(git remote get-url origin 2>/dev/null)
 GIT_PROJECT=$(echo "$ORIGIN" | sed 's/.*\///; s/\.git//')
 echo "Git repo name: ${GIT_PROJECT:-unknown — ask user}"
 echo "~/tasks/ dir: $(test -d ~/tasks && echo 'exists' || echo 'will be created')"
-echo "AGENT.md: $(test -f AGENT.md && echo 'present — consuming agent will follow it' || echo 'ABSENT — recommend running /agent-md first')"
 ```
 
 ## Purpose
@@ -43,5 +42,5 @@ Read [skills/tasks-export/template.json](skills/tasks-export/template.json) for 
 4. **Clarify** priority and order if ambiguous.
 5. **Confirm the task list** with the user before writing any files.
 6. **Construct and save** the JSON using the Output Format above. Create `~/tasks/<repo_name>/` if needed. Save to `~/tasks/<repo_name>/<dd-mm-yyyy>-tasks.json`.
-7. **Report** to the user: the saved file path, a summary table of tasks, and — if AGENT.md was absent — the warning: *"No AGENT.md found in this repo — tasks will fall back to standard conventions. Consider running /agent-md first."*
+7. **Report** to the user: the saved file path and a summary table of tasks (title → model → priority → order → depends_on).
 
