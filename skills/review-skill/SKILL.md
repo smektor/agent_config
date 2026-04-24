@@ -4,9 +4,8 @@ description: Reviews and refactors a SKILL.md file for performance and cost effe
 argument-hint: "[path/to/SKILL.md]"
 disable-model-invocation: true
 context: fork
-agent: general-purpose
+model: haiku
 allowed-tools: Read Write
-effort: medium
 ---
 
 # Review Skill
@@ -16,43 +15,34 @@ effort: medium
 Review and refactor the SKILL.md at `$ARGUMENTS` for performance and cost effectiveness.
 If no path given, look for SKILL.md files in `.claude/skills/` and `~/.claude/skills/`.
 
-## Rules to apply
+## Rules
 
-### Description
-- Must be one sentence, front-loaded with the key use case
-- Must contain enough signal for Claude to trigger it correctly — vague descriptions cause the skill to never auto-invoke or to trigger too often
-- If `disable-model-invocation: true` is set, description can be minimal — it is never loaded into context
-- If auto-invoked, cap `description` + `when_to_use` combined under 1,536 characters
+**Description**
+- One sentence, front-loaded with the key use case
+- Enough signal for correct auto-invocation — vague causes missed or over-triggering
+- If `disable-model-invocation: true`, description can be minimal (never loaded into context)
+- If auto-invoked, `description` + `when_to_use` combined under 1,536 characters
 
-### Focus
-- The skill should do one thing well — if it covers multiple unrelated tasks, flag it for splitting
-- If the content is generic enough to apply to every session, it belongs in CLAUDE.md, not a skill
-- If a rule in the skill must happen every time with zero exceptions, flag it for conversion to a hook instead
+**Focus**
+- One thing well — flag multi-topic skills for splitting
+- Generic session-wide content belongs in CLAUDE.md, not a skill
+- Zero-exception rules belong in hooks, not skill bodies
 
-### Body
-- Keep under 500 lines
-- Remove anything Claude already knows (standard conventions, generic advice)
-- Move large reference material to supporting files, referenced with a relative link — prime candidates: JSON schemas, output templates, format examples, lookup tables, and worked examples
-- No redundant steps — if a template or agent handles it, don't repeat it in the body
-- Checklists have poor adherence — convert to rules or remove
+**Body**
+- Under 500 lines
+- Remove anything Claude already knows
+- Move large reference material (JSON schemas, templates, format examples, lookup tables, worked examples) to supporting files with relative links; add `Read` to `allowed-tools`
+- No redundant steps
+- Convert checklists to rules or remove them
 
-### Frontmatter
-- `disable-model-invocation: true` for any skill with side effects or manual-only invocation
-- `context: fork` for skills that read many files or produce verbose output
-- `model: haiku` or `effort: low` for simple, mechanical skills
-- `allowed-tools` should be minimal — only what the skill actually needs
-
-### Cost
-- Description is paid every session unless `disable-model-invocation: true`
-- Body is paid only on invocation
-- Supporting files are paid only when Claude reads them
-- Prefer supporting files over long bodies
+**Frontmatter**
+- `disable-model-invocation: true` for side-effects or manual-only skills
+- `context: fork` when reading many files or producing verbose output
+- `model: haiku` or `effort: low` for mechanical skills
+- `allowed-tools`: minimal — only what the skill needs
 
 ## Output
 
-1. Rewritten version of the SKILL.md
-2. List of what was changed and why, referencing the rules above
-3. Flag anything requiring human judgement:
-   - Content that should move to a supporting file — actively check for: JSON schemas, output format blocks, worked examples, and lookup tables; if found, propose the supporting file name and note that `Read` must be added to `allowed-tools`
-   - Rules that would be better enforced as hooks
-   - Whether the skill should be split into two focused skills
+1. Rewritten SKILL.md
+2. Changes made and rules cited
+3. Flag for human judgment: content to move to supporting files, rules better as hooks, skills to split
