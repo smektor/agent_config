@@ -23,24 +23,6 @@ Rethink the entire session conversation and distill it into a **minimal, priorit
 
 This skill produces a structured task list for the user to review and refine. It does **not** export or save files — that is a separate optional step.
 
-## How to distill
-
-Read the full conversation and ask:
-
-1. **What was decided?** — Concrete decisions become tasks.
-2. **What was identified as broken or missing?** — Gaps become tasks.
-3. **What was deferred or flagged for later?** — These become lower-priority tasks.
-4. **What is implicit but necessary?** — Prerequisites or scaffolding that must exist for other tasks to work.
-
-Discard: opinions, exploratory tangents, questions that were answered inline, and anything that did not produce a concrete outcome.
-
-## Task size rules
-
-- One task = one concern. If you find yourself writing "and" in a task title, split it.
-- Prefer 3–8 tasks over 1 big one or 20 tiny ones.
-- Infrastructure/setup tasks come first (order 1, 2…); feature tasks follow.
-- A task touching a single file or function is ideal. A task touching an entire system is too large.
-
 ## Output format
 
 Print the distilled task list inline in the conversation. Do **not** write files.
@@ -66,17 +48,19 @@ For each task, output:
 
 ## Steps
 
-1. **Re-read the session** from the top. Identify every concrete decision, gap, or deferred item.
-2. **Draft a raw list** of candidate tasks (internal — do not print this).
-3. **Prune and split**: remove duplicates, merge trivially related items, split anything with "and" in the title.
-4. **Assign priority**: high = blocks other work or core to the goal; medium = important but not blocking; low = nice-to-have or deferred.
-5. **Assign order**: execution order within this session's scope, starting from 1. Infrastructure before features.
-6. **Write descriptions**: each description must be fully self-contained — no references to "as discussed" or "as mentioned above". A reader with zero session memory must understand the task. Every description must also:
-   - Name exact project-relative paths for all files to create or edit (e.g., `app/controllers/sessions_controller.rb`), not vague references like "the controller" or "a new file".
-   - State the target directory explicitly when creating new files.
-   - End with a concrete expected output — a named artifact (class, method, file) or a verifiable behaviour (test scenario, HTTP response, rendered UI). If you cannot state what done looks like, the task is not well-defined enough — refine it first.
-7. **Print the task table** followed by the per-task detail blocks.
-8. **Ask the user** if the list looks right, and whether any tasks should be split, merged, reprioritized, or dropped.
+1. **Re-read the session.** For each item ask:
+   - What was decided? → becomes a task
+   - What is broken or missing? → becomes a task
+   - What was deferred or flagged for later? → lower-priority task
+   - What is implicit but required? → prerequisite task
+   Discard: opinions, exploratory tangents, questions answered inline, anything without a concrete outcome.
+2. **Draft candidate tasks** (internal — do not print this).
+3. **Prune and split**: remove duplicates; split any task whose title contains "and".
+   One task = one concern. Prefer 3–8 tasks. Infrastructure before features.
+4. **Assign priority**: high = blocks other work; medium = important but not blocking; low = deferred/nice-to-have.
+5. **Write self-contained descriptions** — no "as discussed" references. Every description must name exact project-relative file paths, the target directory when creating files, and end with a concrete expected output (named artifact or verifiable behaviour).
+6. **Print the task table** followed by the per-task detail blocks (see Output format).
+7. **Ask the user** if the list looks right, and whether any tasks should be split, merged, reprioritized, or dropped.
 
 ## Notes
 
@@ -84,4 +68,4 @@ For each task, output:
 - Do not include tasks for things already completed during the session.
 - Write descriptions in the imperative ("Create...", "Add...", "Fix...", "Extract...").
 - If the session produced no actionable tasks (e.g., it was pure Q&A), say so explicitly rather than fabricating work.
-- After the user confirms the list, mention that they can run `/task-export` to save these as structured JSON files if needed.
+- After the user confirms the list, mention that they can run `/tasks-export` to save these as structured JSON files if needed.
