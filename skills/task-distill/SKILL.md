@@ -55,16 +55,23 @@ For each task, output:
 2. **Draft candidate tasks** (internal — do not print this).
 3. **Prune and split**: remove duplicates; split any task whose title contains "and".
    One task = one concern. Prefer 3–8 tasks. Infrastructure before features.
-4. **Assign priority**: high = blocks other work; medium = important but not blocking; low = deferred/nice-to-have.
-5. **Write self-contained descriptions.** For each task:
+4. **Apply TDD splitting**: for each task, decide if it warrants a unit test.
+   - **Yes** (split into two): the task produces a concrete, deterministic artifact (file, function, API endpoint, schema) whose behaviour can be asserted without running an LLM or requiring heavy integration setup.
+   - **No** (keep as one): pure configuration, infrastructure, prompt/skill authoring, or anything where writing a test has more overhead than value.
+   When splitting, produce two tasks linked by `depends_on`:
+   - **Test task** (order N): Write the test file(s) with every test marked as skipped/pending so the PR passes without implementation. Name exact test file paths. Model: haiku if a single file. Description must end with: "All tests must use the framework's skip/pending marker — do not implement the feature."
+   - **Implement task** (order N+1): Implement the feature and remove the skip/pending markers. Depends on the test task. Description must include: "Enable the tests written in the previous task by removing skip/pending markers."
+   Do not apply TDD splitting to the test task itself, infrastructure tasks, or tasks already flagged as low priority.
+5. **Assign priority**: high = blocks other work; medium = important but not blocking; low = deferred/nice-to-have.
+6. **Write self-contained descriptions.** For each task:
    - **Model** — assign based on scope: `haiku` for a single named file with a clearly bounded change; `sonnet` for multi-file work or when an existing pattern must be understood first; `opus` for architectural decisions touching many systems. **Default to `sonnet` when in doubt.**
    - **Context line** (first sentence of Description): only add for sonnet/opus when the agent genuinely needs to understand existing code first — `"Before implementing, read \`<dir-or-files>\` to understand <pattern>."` Omit entirely for haiku tasks and for any task where the file path and change are already explicit.
    - **Body** — imperative, no "as discussed" references. Name exact project-relative paths for every file to create or edit. State the target directory explicitly when creating new files.
    - **Patterns** — if a similar implementation exists, name its path: `"Patterns: see \`<file>\` for the existing pattern."` Omit if nothing comparable exists.
    - **Out of scope** — one sentence on what is explicitly NOT part of this task: `"Out of scope: do not implement <X> — that is a separate task."`
    - **Verify** — a concrete command to run after implementing: `"Verify: run \`<command>\` and confirm <result>."` Not a description of a result — an executable check.
-6. **Print the task table** followed by the per-task detail blocks (see Output format).
-7. **Ask the user** if the list looks right, and whether any tasks should be split, merged, reprioritized, or dropped.
+7. **Print the task table** followed by the per-task detail blocks (see Output format).
+8. **Ask the user** if the list looks right, and whether any tasks should be split, merged, reprioritized, or dropped.
 
 ## Notes
 
