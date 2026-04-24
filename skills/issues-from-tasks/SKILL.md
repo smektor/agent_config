@@ -24,21 +24,14 @@ echo "gh auth: $(gh auth status 2>&1 | head -1)"
 
 Read a tasks JSON file from `~/tasks/<repo_name>/` and create one GitHub issue per task entry using the `gh` CLI. Issues are created on the target GitHub repository with a title and body built from the task description.
 
-## Argument resolution
-
-- `$ARGUMENTS` may contain `repo_name` and/or `owner/repo` (e.g. `my-app wedlu/my-app`).
-- If `repo_name` is not provided, use auto-detected git repo name and confirm with user.
-- If `owner/repo` is not provided, derive it from the git remote URL and confirm with user.
-- If neither can be resolved, ask the user.
-
 ## Steps
 
-1. **Resolve `repo_name`** — the local task folder name under `~/tasks/`.
-2. **Resolve `owner/repo`** — the GitHub repository to open issues on.
+1. **Resolve `repo_name`** — use the first word of `$ARGUMENTS` if provided; else use the git-detected repo name and confirm with user; else ask.
+2. **Resolve `owner/repo`** — use the second word of `$ARGUMENTS` if provided; else derive from the git remote URL and confirm with user; else ask.
 3. **Find the tasks file** in `~/tasks/<repo_name>/` matching `*-tasks.json`. If the directory is empty or missing, tell the user to run `/tasks-export` first. If multiple files exist, pick the most recent by filename date and confirm with user.
 4. **Parse the `tasks` array** from the JSON file, sorted by `order` field ascending.
 5. **Check `gh` auth** — if not authenticated, tell the user to run `gh auth login` and stop.
-6. **Confirm with the user** — show a table of tasks (title → priority → order → depends_on) before creating any issues. `depends_on` is for human review only — it will not appear in the issue body.
+6. **Confirm with the user** — show a table of tasks (title → model → priority → order → depends_on) before creating any issues. `depends_on` is for human review only — it will not appear in the issue body.
 7. **For each task entry** (in `order` ascending, sequentially — not in parallel):
    - Check for an existing open issue with the same title: `gh issue list --repo <owner/repo> --search "<title>" --state open`. If one exists, skip and warn the user.
    - Build the issue body (see format below).
@@ -56,6 +49,7 @@ Read a tasks JSON file from `~/tasks/<repo_name>/` and create one GitHub issue p
 ---
 
 **Feature:** `<feature_name>`
+**Model:** <model>
 **Priority:** <priority>
 **Order:** <order>
 **Source file:** `~/tasks/<repo_name>/<filename>`

@@ -22,7 +22,7 @@
         "feature_name": "oauth-login-page",
         "title": "Add OAuth Login Page",
         "model": "haiku",
-        "description": "Before implementing, read `pages/signup.tsx` to understand the existing page structure. Create `pages/login.tsx` with a 'Sign in with Google' button that links to `/api/auth/google`. Use Next.js 14 App Router. Patterns: see `pages/signup.tsx` for the button and layout pattern. Out of scope: do not implement the OAuth redirect or callback logic — that is a separate task. Verify: run `npx next build` and confirm no type errors, then `npx playwright test tests/login.spec.ts` and confirm the page renders with a sign-in button.",
+        "description": "Create `pages/login.tsx` with a 'Sign in with Google' button that links to `/api/auth/google`. Use Next.js 14 App Router. Patterns: see `pages/signup.tsx` for the button and layout pattern. Out of scope: do not implement the OAuth redirect or callback logic — that is a separate task. Verify: run `npx next build` and confirm no type errors, then `npx playwright test tests/login.spec.ts` and confirm the page renders with a sign-in button.",
         "priority": "high",
         "order": 1,
         "depends_on": []

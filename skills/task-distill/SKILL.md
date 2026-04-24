@@ -57,8 +57,8 @@ For each task, output:
    One task = one concern. Prefer 3–8 tasks. Infrastructure before features.
 4. **Assign priority**: high = blocks other work; medium = important but not blocking; low = deferred/nice-to-have.
 5. **Write self-contained descriptions.** For each task:
-   - **Model** — assign based on scope: `haiku` for a single named file with a clearly bounded change; `sonnet` for multi-file work or when an existing pattern must be understood first; `opus` for architectural decisions touching many systems.
-   - **Context line** (first sentence of Description): for haiku, `"Read only \`<file>\`. Do not explore other directories."`; for sonnet/opus, `"Before implementing, read \`<dir-or-files>\` to understand <pattern>."`.
+   - **Model** — assign based on scope: `haiku` for a single named file with a clearly bounded change; `sonnet` for multi-file work or when an existing pattern must be understood first; `opus` for architectural decisions touching many systems. **Default to `sonnet` when in doubt.**
+   - **Context line** (first sentence of Description): only add for sonnet/opus when the agent genuinely needs to understand existing code first — `"Before implementing, read \`<dir-or-files>\` to understand <pattern>."` Omit entirely for haiku tasks and for any task where the file path and change are already explicit.
    - **Body** — imperative, no "as discussed" references. Name exact project-relative paths for every file to create or edit. State the target directory explicitly when creating new files.
    - **Patterns** — if a similar implementation exists, name its path: `"Patterns: see \`<file>\` for the existing pattern."` Omit if nothing comparable exists.
    - **Out of scope** — one sentence on what is explicitly NOT part of this task: `"Out of scope: do not implement <X> — that is a separate task."`
