@@ -32,18 +32,16 @@ For each task, output:
 ```
 ## Tasks
 
-| # | Title | Priority | Depends on |
-|---|-------|----------|------------|
-| 1 | Short human-readable name | high/medium/low | — or task # |
+| # | Title | Priority | Model | Depends on |
+|---|-------|----------|-------|------------|
+| 1 | Short human-readable name | high/medium/low | haiku/sonnet/opus | — or task # |
 ...
 
 ### Task 1 — <Title>
 **Priority:** high | medium | low
+**Model:** haiku | sonnet | opus
 **Depends on:** none | Task N
-**Description:** Self-contained, one-paragraph description of what needs to be done and why. Written as if the implementer has no memory of this session. Must include:
-- Exact project-relative file paths for every file to create or edit (e.g., `app/models/user.rb`).
-- Explicit target directory when creating new files.
-- A concrete expected output — either a named artifact (e.g., "a new `AuthService` class with a `#call` method") or a verifiable behaviour (e.g., "visiting `/login` returns HTTP 200 and renders the login form").
+**Description:** [Context line — see Step 5.] [Imperative body: what to implement, with exact project-relative paths and target directories.] [Patterns: see `<file>` for the existing pattern — omit if nothing comparable exists.] Out of scope: [what this task explicitly does NOT include]. Verify: [concrete command to run after implementing and what to confirm].
 ```
 
 ## Steps
@@ -58,7 +56,13 @@ For each task, output:
 3. **Prune and split**: remove duplicates; split any task whose title contains "and".
    One task = one concern. Prefer 3–8 tasks. Infrastructure before features.
 4. **Assign priority**: high = blocks other work; medium = important but not blocking; low = deferred/nice-to-have.
-5. **Write self-contained descriptions** — no "as discussed" references. Every description must name exact project-relative file paths, the target directory when creating files, and end with a concrete expected output (named artifact or verifiable behaviour).
+5. **Write self-contained descriptions.** For each task:
+   - **Model** — assign based on scope: `haiku` for a single named file with a clearly bounded change; `sonnet` for multi-file work or when an existing pattern must be understood first; `opus` for architectural decisions touching many systems.
+   - **Context line** (first sentence of Description): for haiku, `"Read only \`<file>\`. Do not explore other directories."`; for sonnet/opus, `"Before implementing, read \`<dir-or-files>\` to understand <pattern>."`.
+   - **Body** — imperative, no "as discussed" references. Name exact project-relative paths for every file to create or edit. State the target directory explicitly when creating new files.
+   - **Patterns** — if a similar implementation exists, name its path: `"Patterns: see \`<file>\` for the existing pattern."` Omit if nothing comparable exists.
+   - **Out of scope** — one sentence on what is explicitly NOT part of this task: `"Out of scope: do not implement <X> — that is a separate task."`
+   - **Verify** — a concrete command to run after implementing: `"Verify: run \`<command>\` and confirm <result>."` Not a description of a result — an executable check.
 6. **Print the task table** followed by the per-task detail blocks (see Output format).
 7. **Ask the user** if the list looks right, and whether any tasks should be split, merged, reprioritized, or dropped.
 
