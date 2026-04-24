@@ -52,7 +52,6 @@ Read a tasks JSON file from `~/tasks/<repo_name>/` and create one GitHub issue p
 **Model:** <model>
 **Priority:** <priority>
 **Order:** <order>
-**Source file:** `~/tasks/<repo_name>/<filename>`
 ```
 
 See [example.md](example.md) for a full worked example.
