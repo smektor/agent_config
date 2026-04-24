@@ -6,7 +6,7 @@
       {
         "feature_name": "string — kebab-case identifier",
         "title": "string — short human-readable name",
-        "description": "string — self-contained agent prompt ending with the closing phrase",
+        "description": "string — self-contained agent prompt",
         "priority": "high | medium | low",
         "order": "number — execution order, starting from 1",
         "depends_on": ["feature_name of blocking task", "..."]
@@ -20,7 +20,7 @@
       {
         "feature_name": "oauth-login-page",
         "title": "Add OAuth Login Page",
-        "description": "Create a login page at /login with a 'Sign in with Google' button. Use Next.js 14 App Router. The button should redirect to the OAuth provider. No session logic in this task. If a `CLAUDE.md` file exists in the repository root, read it to familiarize yourself with the project conventions and let it guide your implementation. Follow its rules unless this task description explicitly says otherwise.",
+        "description": "Create a login page at /login with a 'Sign in with Google' button. Use Next.js 14 App Router. The button should redirect to the OAuth provider. No session logic in this task.",
         "priority": "high",
         "order": 1,
         "depends_on": []
@@ -28,7 +28,7 @@
       {
         "feature_name": "oauth-callback",
         "title": "Handle OAuth Callback",
-        "description": "Add an API route at /api/auth/callback that receives the OAuth code, exchanges it for a token, and stores the session in an httpOnly cookie. Use the existing User model in /models/user.ts to persist the user record. If a `CLAUDE.md` file exists in the repository root, read it to familiarize yourself with the project conventions and let it guide your implementation. Follow its rules unless this task description explicitly says otherwise.",
+        "description": "Add an API route at /api/auth/callback that receives the OAuth code, exchanges it for a token, and stores the session in an httpOnly cookie. Use the existing User model in /models/user.ts to persist the user record.",
         "priority": "high",
         "order": 2,
         "depends_on": ["oauth-login-page"]
