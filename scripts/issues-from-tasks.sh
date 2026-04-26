@@ -93,7 +93,7 @@ $description
 **Priority:** $priority
 **Order:** $order"
 
-  url=$(gh issue create --repo "$OWNER_REPO" --title "$title" --body "$body" --json url --jq '.url')
+  url=$(gh issue create --repo "$OWNER_REPO" --title "$title" --body "$body")
   echo "  CREATED: $url"
   CREATED_ISSUES["$title"]="$url"
 done < <(echo "$TASKS_JSON" | jq -c '.[]')
