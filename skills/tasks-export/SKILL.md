@@ -43,7 +43,7 @@ Print the distilled task list in the conversation. Do **not** write files during
 **Priority:** high | medium | low
 **Model:** haiku | sonnet | opus
 **Depends on:** none | Task N
-**Description:** [Context line.] [Imperative body: what to implement, with exact project-relative paths.] [Patterns: see `<file>` for the existing pattern — omit if nothing comparable exists.] Out of scope: [what this task explicitly does NOT include]. Verify: [concrete command to run after implementing and what to confirm].
+**Description:** [Context line.] [Imperative body: what to implement, with exact project-relative paths.] [Patterns: see `<file>` for the existing pattern — omit if nothing comparable exists.] Out of scope: [what this task explicitly does NOT include]. Verify: [Checkpoint list — items the agent should confirm are present or correctly applied before finishing. No commands to run — tests, linting, and type checks are handled externally.]
 ```
 
 ### JSON file
@@ -79,7 +79,7 @@ Read `skills/tasks-export/template.json` for the JSON schema and a worked exampl
    - **Body** — imperative, no "as discussed" references. Name exact project-relative paths for every file to create or edit. State the target directory explicitly when creating new files.
    - **Patterns** — if a similar implementation exists, name its path: `"Patterns: see \`<file>\` for the existing pattern."` Omit if nothing comparable exists.
    - **Out of scope** — one sentence on what is explicitly NOT part of this task.
-   - **Verify** — a concrete command to run after implementing: `"Verify: run \`<command>\` and confirm <result>."` Not a description — an executable check.
+   - **Verify** — a checkpoint list the agent reviews before finishing: items to confirm exist, are wired up correctly, or match an expected structure. Do NOT include commands to run tests, linting, or type checks — those are handled by external scripts after the task completes.
 
 ### Phase 2 — Display & Confirm
 
