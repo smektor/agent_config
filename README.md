@@ -11,6 +11,7 @@ agent_config/        # mirrors ~/.claude/ exactly
 ├── agents/          # sub-agent definitions
 ├── skills/          # slash-command skills
 ├── rules/           # path-scoped authoring rules (applied by Claude Code when editing matched files)
+├── scripts/         # helper scripts used by skills
 └── CLAUDE.md        # global behavioral instructions for Claude Code
 ```
 
@@ -18,28 +19,27 @@ agent_config/        # mirrors ~/.claude/ exactly
 
 Each file defines a named sub-agent that Claude Code can spawn via the `Agent` tool. Agents are markdown files with YAML frontmatter (`name`, `description`, `color`, `emoji`) followed by a system prompt that shapes the agent's identity, capabilities, and workflow.
 
+Files ending in `.skip` are disabled and not synced to `~/.claude`.
+
 | Agent | Purpose |
 |---|---|
-| `engineering-ai-data-remediation-engineer` | Self-healing data pipelines — detects, classifies, and fixes data anomalies |
-| `engineering-ai-engineer` | ML model development, deployment, and AI-powered feature integration |
-| `engineering-autonomous-optimization-architect` | Shadow-tests APIs for performance while enforcing cost and security guardrails |
-| `engineering-backend-architect` | Scalable system design, database architecture, and API development |
-| `engineering-code-reviewer` | Constructive code review focused on correctness, maintainability, security |
-| `engineering-codebase-onboarding-engineer` | Helps new engineers understand unfamiliar codebases fast |
-| `engineering-data-engineer` | Data pipelines, lakehouse architectures, ETL/ELT, and streaming systems |
-| `engineering-database-optimizer` | Schema design, query optimization, and indexing strategies |
-| `engineering-devops-automator` | Infrastructure automation, CI/CD, and cloud operations |
-| `engineering-frontend-developer` | Modern web, React/Vue/Angular, UI implementation, and performance |
-| `engineering-git-workflow-master` | Git workflows, branching strategies, and version control best practices |
-| `engineering-minimal-change-engineer` | Minimum-viable diffs — fixes only what was asked, resists scope creep |
-| `engineering-mobile-app-builder` | Native iOS/Android and cross-platform mobile development |
-| `engineering-rapid-prototyper` | Ultra-fast proof-of-concept and MVP creation |
-| `engineering-security-engineer` | Threat modeling, vulnerability assessment, and secure code review |
-| `engineering-project-tech-advisor` | Interactive advisor for new project technology discovery — structured sessions to evaluate options and produce honest recommendations |
-| `engineering-rails-developer` | Ruby on Rails full-stack specialist — Rails, Hotwire, Turbo, Stimulus.js, ViewComponent |
-| `engineering-senior-developer` | Laravel/Livewire/FluxUI, advanced CSS, Three.js integration |
-| `engineering-software-architect` | System design, DDD, architectural patterns, and technical decision-making |
-| `engineering-technical-writer` | Developer documentation, API references, READMEs, and tutorials |
+| `ai-engineer` | ML model development, deployment, and AI-powered feature integration |
+| `backend-architect` | Scalable system design, database architecture, and API development |
+| `code-reviewer` | Constructive code review focused on correctness, maintainability, security |
+| `codebase-onboarding-engineer` | Helps new engineers understand unfamiliar codebases fast |
+| `database-optimizer` | Schema design, query optimization, and indexing strategies |
+| `devops-automator` | Infrastructure automation, CI/CD, and cloud operations |
+| `explorer` | Fast codebase search — grep, glob, find, and reading many files |
+| `frontend-developer` | Modern web, React/Vue/Angular, UI implementation, and performance |
+| `laravel-developer` | Laravel/Livewire/FluxUI specialist — advanced CSS, Three.js integration |
+| `minimal-change-engineer` | Minimum-viable diffs — fixes only what was asked, resists scope creep |
+| `project-tech-advisor` | Interactive advisor for new project technology discovery — structured sessions to evaluate options and produce honest recommendations |
+| `python-developer` | Senior Python specialist — FastAPI/Django/Flask, async, uv, ruff, mypy, pytest |
+| `rails-developer` | Ruby on Rails full-stack specialist — Rails, Hotwire, Turbo, Stimulus.js |
+| `rails-reviewer` | Rails code review specialist — controllers, models, migrations, views, specs |
+| `security-engineer` | Threat modeling, vulnerability assessment, and secure code review |
+| `software-architect` | System design, DDD, architectural patterns, and technical decision-making |
+| `technical-writer` | Developer documentation, API references, READMEs, and tutorials |
 
 ## skills/
 
@@ -47,12 +47,24 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 
 | Skill | Command | Purpose |
 |---|---|---|
-| `agent-md` | `/agent-md` | Generates or updates `AGENT.md` at a repo root — an AI agent identity file grounded in the actual codebase |
+| `agent-md` | `/agent-md` | Creates or updates `AGENT.md` at a repo root — an AI agent identity file grounded in the actual codebase |
+| `hook-setup` | `/hook-setup` | Sets up Claude Code hooks in `settings.json` and documents them in `CLAUDE.md` to automate recurring operations |
 | `issues-from-tasks` | `/issues-from-tasks` | Creates GitHub issues from task JSON files in `~/tasks/<repo>/`, one issue per file, using the `gh` CLI |
+| `review-agent` | `/review-agent` | Reviews and refactors an `AGENT.md` file for performance and cost effectiveness |
+| `review-skill` | `/review-skill` | Reviews and refactors a `SKILL.md` file for performance and cost effectiveness |
 | `session-summary` | `/session-summary` | Produces a structured two-part summary (short + extended) of a research or planning session, saved to `~/sessions/<project>/` as a handoff brief for the next session |
 | `task-distill` | `/task-distill` | Rethinks the session discussion and distills it into a concise, prioritized list of small actionable tasks |
-| `tasks-export` | `/tasks-export` | Exports all planning-session tasks as a single JSON file to `~/tasks/<repo>/` for a consuming agent to implement |
+| `tasks-export` | `/tasks-export` | Runs the full pipeline — distills session into tasks, confirms with the user, then saves as JSON |
+| `tasks-to-json` | `/tasks-to-json` | Saves a confirmed task list from the current session as a structured JSON file to `~/tasks/<repo>/` |
 | `topic-summary` | `/topic-summary` | Produces a structured summary of a specific topic discussed during a session — options considered, pros/cons, open questions, and a recommended starting point |
+
+## scripts/
+
+Helper scripts used by skills. Not synced to `~/.claude`.
+
+| Script | Purpose |
+|---|---|
+| `issues-from-tasks.sh` | Shell implementation backing the `/issues-from-tasks` skill |
 
 ## Workflow
 
@@ -75,7 +87,7 @@ Path-scoped authoring rules that Claude Code loads automatically when editing ma
 
 ## Adding a new agent
 
-1. Create `agents/<category>-<role>.md` with YAML frontmatter (`name`, `description`, `color`, `emoji`) and a full system prompt.
+1. Create `agents/<role>.md` with YAML frontmatter (`name`, `description`, `color`, `emoji`) and a full system prompt.
 2. Commit and push — Claude Code picks up new agent files automatically on next launch.
 
 ## Adding a new skill
