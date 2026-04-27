@@ -19,8 +19,11 @@ usage() {
 
 OWNER_REPO="$1"
 REPO_NAME="${OWNER_REPO##*/}"
-REAL_HOME=$(getent passwd "${SUDO_USER:-${USER:-$(id -un)}}" | cut -d: -f6)
+REAL_USER="${SUDO_USER:-${USER:-$(id -un)}}"
+REAL_HOME=$(getent passwd "$REAL_USER" | cut -d: -f6)
 TASKS_DIR="$REAL_HOME/tasks/$REPO_NAME"
+GH="gh"
+[[ -n "${SUDO_USER:-}" ]] && GH="sudo -u $SUDO_USER gh"
 
 # --- locate tasks file ---
 if [[ ! -d "$TASKS_DIR" ]]; then
@@ -37,7 +40,7 @@ fi
 echo "Tasks file: $TASKS_FILE"
 
 # --- check gh auth ---
-if ! gh auth status &>/dev/null; then
+if ! $GH auth token &>/dev/null; then
   echo "Error: not authenticated with gh. Run: gh auth login" >&2
   exit 1
 fi
@@ -85,7 +88,7 @@ while IFS= read -r task; do
   order=$(echo "$task" | jq -r '.order')
 
   # check for existing open issue
-  existing=$(gh issue list --repo "$OWNER_REPO" --search "\"$title\"" --state open --json title --jq '.[0].title // empty')
+  existing=$($GH issue list --repo "$OWNER_REPO" --search "\"$title\"" --state open --json title --jq '.[0].title // empty')
   if [[ -n "$existing" ]]; then
     echo "  SKIP (exists): $title"
     continue
@@ -102,7 +105,7 @@ $description
 **Priority:** $priority
 **Order:** $order"
 
-  url=$(gh issue create --repo "$OWNER_REPO" --title "$title" --body "$body")
+  url=$($GH issue create --repo "$OWNER_REPO" --title "$title" --body "$body")
   echo "  CREATED: $url"
   CREATED_ISSUES["$title"]="$url"
 done < <(echo "$TASKS_JSON" | jq -c '.[]')
