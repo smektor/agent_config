@@ -19,7 +19,8 @@ usage() {
 
 OWNER_REPO="$1"
 REPO_NAME="${OWNER_REPO##*/}"
-TASKS_DIR="$HOME/tasks/$REPO_NAME"
+REAL_HOME=$(getent passwd "${SUDO_USER:-${USER:-$(id -un)}}" | cut -d: -f6)
+TASKS_DIR="$REAL_HOME/tasks/$REPO_NAME"
 
 # --- locate tasks file ---
 if [[ ! -d "$TASKS_DIR" ]]; then
