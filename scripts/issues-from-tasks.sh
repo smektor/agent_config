@@ -4,6 +4,14 @@ set -euo pipefail
 usage() {
   echo "Usage: $(basename "$0") <owner/repo>"
   echo "  Creates GitHub issues from the most recent tasks JSON in ~/tasks/<repo>/"
+  echo ""
+  echo "Examples:"
+  echo "  $(basename "$0") octocat/hello-world"
+  echo "  $(basename "$0") my-org/my-repo"
+  echo ""
+  echo "Prerequisites:"
+  echo "  1. Export tasks first:  /tasks-export"
+  echo "  2. Authenticate gh:     gh auth login"
   exit 1
 }
 
