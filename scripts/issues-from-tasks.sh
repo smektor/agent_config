@@ -58,17 +58,18 @@ fi
 echo ""
 echo "Tasks to import into $OWNER_REPO:"
 echo ""
-printf "%-4s  %-40s  %-8s  %-8s  %s\n" "Ord" "Title" "Model" "Priority" "Depends On"
-printf "%-4s  %-40s  %-8s  %-8s  %s\n" "---" "-----" "-----" "--------" "----------"
+printf "%-4s  %-40s  %-8s  %-9s  %-8s  %s\n" "Ord" "Title" "Model" "Max Turns" "Priority" "Depends On"
+printf "%-4s  %-40s  %-8s  %-9s  %-8s  %s\n" "---" "-----" "-----" "---------" "--------" "----------"
 
 echo "$TASKS_JSON" | jq -r '.[] | [
   (.order | tostring),
   .title,
   .model,
+  (.max_turns // 30 | tostring),
   .priority,
   (if (.depends_on | length) > 0 then (.depends_on | join(", ")) else "-" end)
-] | @tsv' | while IFS=$'\t' read -r order title model priority deps; do
-  printf "%-4s  %-40s  %-8s  %-8s  %s\n" "$order" "${title:0:40}" "$model" "$priority" "$deps"
+] | @tsv' | while IFS=$'\t' read -r order title model max_turns priority deps; do
+  printf "%-4s  %-40s  %-8s  %-9s  %-8s  %s\n" "$order" "${title:0:40}" "$model" "$max_turns" "$priority" "$deps"
 done
 
 echo ""
@@ -84,6 +85,7 @@ while IFS= read -r task; do
   description=$(echo "$task" | jq -r '.description')
   feature_name=$(echo "$task" | jq -r '.feature_name')
   model=$(echo "$task" | jq -r '.model')
+  max_turns=$(echo "$task" | jq -r '.max_turns // 30')
   priority=$(echo "$task" | jq -r '.priority')
   order=$(echo "$task" | jq -r '.order')
 
@@ -102,6 +104,7 @@ $description
 
 **Feature:** \`$feature_name\`
 **Model:** $model
+**Max Turns:** $max_turns
 **Priority:** $priority
 **Order:** $order"
 
