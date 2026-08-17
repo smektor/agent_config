@@ -20,6 +20,7 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 
 | Skill | Command | Purpose |
 |---|---|---|
+| `explain-diff-html` | `/explain-diff-html` | Generates a rich, interactive standalone HTML explainer (background, intuition, code walkthrough, quiz) for a diff, branch, or PR |
 | `hook-setup` | `/hook-setup` | Sets up Claude Code hooks in `settings.json` and documents them in `CLAUDE.md` to automate recurring operations |
 | `implementation-plan` | `/implementation-plan` | Researches the repo for a feature and writes a standalone plan folder (`docs/implementation-plans/<slug>/`) with a plan doc, ordered task list, and progress checklist |
 | `implement-task` | `/implement-task` | Implements exactly one task from an implementation-plan folder's task list, marks it done, and stops |
