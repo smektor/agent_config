@@ -22,7 +22,7 @@ echo "~/tasks/ dir: $(test -d ~/tasks && echo 'exists' || echo 'will be created'
 
 ## Purpose
 
-After a planning session where tasks have already been distilled and confirmed (e.g., via `/tasks-export`), save them as a single JSON file to `~/tasks/<repo_name>/`. The file is consumed by a Claude agent that implements the tasks. Tasks must be as small as possible — one concern per task.
+After a planning session where tasks have already been distilled and confirmed (e.g., via `/task-distill`), save them as a single JSON file to `~/tasks/<repo_name>/`. The file is consumed by a Claude agent that implements the tasks. Tasks must be as small as possible — one concern per task.
 
 ## Output Format
 

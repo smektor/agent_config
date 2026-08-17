@@ -10,7 +10,7 @@ usage() {
   echo "  $(basename "$0") my-org/my-repo"
   echo ""
   echo "Prerequisites:"
-  echo "  1. Export tasks first:  /tasks-export"
+  echo "  1. Export tasks first:  /tasks-to-json"
   echo "  2. Authenticate gh:     gh auth login"
   exit 1
 }
@@ -27,13 +27,13 @@ GH="gh"
 
 # --- locate tasks file ---
 if [[ ! -d "$TASKS_DIR" ]]; then
-  echo "Error: directory $TASKS_DIR not found. Run /tasks-export first." >&2
+  echo "Error: directory $TASKS_DIR not found. Run /tasks-to-json first." >&2
   exit 1
 fi
 
 TASKS_FILE=$(find "$TASKS_DIR" -maxdepth 1 -name "*-tasks.json" | sort | tail -1)
 if [[ -z "$TASKS_FILE" ]]; then
-  echo "Error: no *-tasks.json found in $TASKS_DIR. Run /tasks-export first." >&2
+  echo "Error: no *-tasks.json found in $TASKS_DIR. Run /tasks-to-json first." >&2
   exit 1
 fi
 

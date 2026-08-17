@@ -1,6 +1,7 @@
 ---
 name: issues-from-tasks
 description: Creates GitHub issues from a tasks JSON file in ~/tasks/<repo_name>/, one issue per task entry, using the gh CLI.
+when_to_use: Triggers on "create issues from tasks", "turn these tasks into GitHub issues", "file issues for this task list", used after `/tasks-to-json` has produced a tasks JSON file.
 argument-hint: "[github-owner/repo]"
 disable-model-invocation: true
 allowed-tools: Bash

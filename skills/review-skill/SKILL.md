@@ -1,6 +1,7 @@
 ---
 name: review-skill
 description: Reviews and refactors a SKILL.md file for performance and cost effectiveness.
+when_to_use: Triggers on "review this skill", "refactor this SKILL.md", "check this skill for cost/performance", or when a skill file seems bloated, redundant, or miswired.
 argument-hint: "[path/to/SKILL.md]"
 disable-model-invocation: true
 context: fork

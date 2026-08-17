@@ -21,12 +21,12 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 | Skill | Command | Purpose |
 |---|---|---|
 | `hook-setup` | `/hook-setup` | Sets up Claude Code hooks in `settings.json` and documents them in `CLAUDE.md` to automate recurring operations |
-| `implementation-plan` | `/implementation-plan` | Researches the repo for a feature and writes a persistent implementation-plan doc that `task-distill`/`tasks-to-json` build from |
+| `implementation-plan` | `/implementation-plan` | Researches the repo for a feature and writes a standalone plan folder (`docs/implementation-plans/<slug>/`) with a plan doc, ordered task list, and progress checklist |
+| `implement-task` | `/implement-task` | Implements exactly one task from an implementation-plan folder's task list, marks it done, and stops |
 | `issues-from-tasks` | `/issues-from-tasks` | Creates GitHub issues from task JSON files in `~/tasks/<repo>/`, one issue per file, using the `gh` CLI |
 | `review-skill` | `/review-skill` | Reviews and refactors a `SKILL.md` file for performance and cost effectiveness |
 | `session-summary` | `/session-summary` | Produces a structured two-part summary (short + extended) of a research or planning session, saved to `~/sessions/<project>/` as a handoff brief for the next session |
 | `task-distill` | `/task-distill` | Rethinks the session discussion and distills it into a concise, prioritized list of small actionable tasks |
-| `tasks-export` | `/tasks-export` | Runs the full pipeline — distills session into tasks, confirms with the user, then saves as JSON |
 | `tasks-to-json` | `/tasks-to-json` | Saves a confirmed task list from the current session as a structured JSON file to `~/tasks/<repo>/` |
 | `topic-summary` | `/topic-summary` | Produces a structured summary of a specific topic discussed during a session — options considered, pros/cons, open questions, and a recommended starting point |
 

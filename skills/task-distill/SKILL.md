@@ -2,7 +2,6 @@
 name: task-distill
 description: Rethinks the current session discussion and distills it into a concise, prioritized list of small, actionable tasks — ready for review, refinement, or export.
 when_to_use: Triggers when the user says "distill tasks", "extract tasks", "what are the tasks", "summarize tasks", "pull out the tasks", or "what should we build from this". Use after any planning, design, or problem-solving discussion to crystallize actionable next steps.
-argument-hint: ""
 disable-model-invocation: true
 allowed-tools: Bash
 effort: low
@@ -79,4 +78,4 @@ For each task, output:
 - Do not include tasks for things already completed during the session.
 - Write descriptions in the imperative ("Create...", "Add...", "Fix...", "Extract...").
 - If the session produced no actionable tasks (e.g., it was pure Q&A), say so explicitly rather than fabricating work.
-- After the user confirms the list, mention that they can run `/tasks-export` to save these as structured JSON files if needed.
+- After the user confirms the list, mention that they can run `/tasks-to-json` to save these as a structured JSON file if needed.
