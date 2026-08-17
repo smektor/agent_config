@@ -27,6 +27,7 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 | `review-skill` | `/review-skill` | Reviews and refactors a `SKILL.md` file for performance and cost effectiveness |
 | `session-summary` | `/session-summary` | Produces a structured two-part summary (short + extended) of a research or planning session, saved to `~/sessions/<project>/` as a handoff brief for the next session |
 | `task-distill` | `/task-distill` | Rethinks the session discussion and distills it into a concise, prioritized list of small actionable tasks |
+| `testing-instruction` | `/testing-instruction` | Analyzes an implementation/diff/task and writes `docs/testing-instructions/<slug>.md` with manual testing steps and low-effort automated test suggestions |
 | `tasks-to-json` | `/tasks-to-json` | Saves a confirmed task list from the current session as a structured JSON file to `~/tasks/<repo>/` |
 | `topic-summary` | `/topic-summary` | Produces a structured summary of a specific topic discussed during a session — options considered, pros/cons, open questions, and a recommended starting point |
 
