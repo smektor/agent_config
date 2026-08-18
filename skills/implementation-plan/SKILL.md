@@ -128,8 +128,9 @@ Checklist mirrors `implementation-tasks.md` 1:1. Check a box off (`- [x]`) when 
    - Directories and files likely to be affected.
    - Existing test structure/conventions.
    Use Grep/Glob/Read directly — no nested Agent calls needed, this skill already runs isolated via `context: fork`.
+   If exploration surfaces ambiguity — multiple plausible integration points, an unclear scope boundary, no existing convention to follow — stop and ask the user directly rather than picking one silently.
 5. **Draft implementation-plan.md** using the format above, grounded only in what exploration actually found.
-6. **Show the drafted plan inline** and confirm with the user before proceeding.
+6. **Summarize, then present, then wait.** Give a short (2-4 sentence) plain-language summary of what was found in the repo and the chosen approach, then show the drafted plan inline. Stop and wait for the user's explicit go-ahead — approve, or request changes — before doing anything else. Do not start the task breakdown until the user has responded.
 7. **Derive the task list** from the confirmed plan's Affected Areas / Proposed Approach:
    - One task = one concern (one atomic unit of work). Split any task whose title contains "and".
    - Prefer 3–8 tasks. Order infrastructure before features; respect real dependencies via "Depends on".
@@ -137,12 +138,13 @@ Checklist mirrors `implementation-tasks.md` 1:1. Check a box off (`- [x]`) when 
    - **Priority**: high = blocks other work; medium = important but not blocking; low = deferred/nice-to-have.
    - **Model**: haiku for a single named file with a clearly bounded change; sonnet for multi-file work or when an existing pattern must be understood first; opus for architectural decisions touching many systems. Default to sonnet when unsure.
    - **Description**: imperative, no "as discussed" references. Exact project-relative paths for every file to create or edit. Name patterns to reuse (`Patterns: see \`<file>\``) if found. State out-of-scope items. End with a concrete `Verify:` command.
-8. **Show the drafted task list inline** and confirm with the user — ask if anything should be split, merged, reprioritized, or dropped.
+8. **Present the task list, then wait.** Show the drafted task list inline and ask if anything should be split, merged, reprioritized, or dropped. Stop and wait for explicit approval — do not write files until the user has confirmed.
 9. **Write all three files** under `docs/implementation-plans/<slug>/`, creating the directory if needed. `implementation-progress.md` task titles/order must match `implementation-tasks.md` exactly, all starting unchecked (unless in update mode preserving prior checked state).
 10. **Report** the folder path and list the three files written.
 
 ## Notes
 
+- **Cooperation is the default mode.** Never silently resolve ambiguity — unclear scope, no matching pattern, unclear priority/model choice — by guessing. Ask the user a direct question instead, at any step, not only at the two confirmation checkpoints.
 - Do not invent affected files, patterns, architecture decisions, or tasks that exploration/discussion didn't actually support — say "no existing pattern found" rather than fabricating one.
 - The task-splitting/priority/model rules above are intentionally self-contained (not shared with any other skill) so this skill has no cross-skill coupling.
 - Do not write any files until the user has confirmed the slug, the drafted plan, and the drafted task list.
