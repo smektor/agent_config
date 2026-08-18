@@ -25,6 +25,7 @@ Each subdirectory is a skill invokable as a slash command (`/<skill-name>`) insi
 | `implementation-plan` | `/implementation-plan` | Researches the repo for a feature and writes a standalone plan folder (`docs/implementation-plans/<slug>/`) with a plan doc, ordered task list, and progress checklist |
 | `implement-task` | `/implement-task` | Implements exactly one task from an implementation-plan folder's task list, marks it done, and stops |
 | `issues-from-tasks` | `/issues-from-tasks` | Creates GitHub issues from task JSON files in `~/tasks/<repo>/`, one issue per file, using the `gh` CLI |
+| `pr-description` | `/pr-description` | Generates a short PR description from the diff between current branch and main/master (or a given branch/diff file) |
 | `review-skill` | `/review-skill` | Reviews and refactors a `SKILL.md` file for performance and cost effectiveness |
 | `session-summary` | `/session-summary` | Produces a structured two-part summary (short + extended) of a research or planning session, saved to `~/sessions/<project>/` as a handoff brief for the next session |
 | `task-distill` | `/task-distill` | Rethinks the session discussion and distills it into a concise, prioritized list of small actionable tasks |
